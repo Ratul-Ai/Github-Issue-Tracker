@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Github-Issue-Tracker</title>
+    <link
+      rel="shortcut icon"
+      href="./assets/github-logo.png"
+      type="image/x-icon"
+    />
+    <!--/ fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!--/ custom Css  -->
+    <style>
+      * {
+        font-family: "Geist", sans-serif;
+      }
+    </style>
+    <!--/ daisy+tailwind -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!--/ font awesome icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+
+  <body>
+ <section class="min-h-screen bg-base-200 flex items-center justify-center py-10">
+  <div class="bg-base-100 rounded-2xl shadow-md w-full max-w-lg p-10 flex flex-col gap-6">
+
+    <!--/logo and title  -->
+    <div class="flex flex-col items-center text-center gap-2">
+      <img src="./assets/github-logo.png" alt="github logo" class="w-20 h-20" />
+      <h1 class="text-2xl font-bold">GitHub Issues Tracker</h1>
+      <p class="text-base-content/50">Sign in to manage your issues</p>
+    </div>
+
+    <!--/ form  -->
+    <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-1">
+        <label class="label font-semibold">Username</label>
+        <input id="login-user" type="text" placeholder="Enter Username"
+          class=" no-space input input-bordered w-full"
+          maxlength="10" />
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="label font-semibold">Password</label>
+        <input id="login-password" type="password" placeholder="Enter Password"
+          class="no-space input input-bordered w-full"
+          maxlength="10" />
+          <p id="error-msg" class=" mt-1 text-error text-sm hidden">Incorrect Username or Password.</p>
+      </div>
+
+      <button id="login-btn" class="btn btn-primary w-full mt-2">
+        Sign In
+      </button>
+    </div>
+
+    <!--/ line break -->
+    <div class="flex items-center gap-4 text-base-content/40 text-sm">
+      <hr class="flex-1 border-base-300">
+      <span>OR</span>
+      <hr class="flex-1 border-base-300">
+    </div>
+    <!--/ footer  -->
+    <div class="flex flex-col items-center gap-3">
+      <p class="text-base-content/40 text-sm">Demo Credentials:</p>
+      <div class="bg-base-200 rounded-lg py-5 w-full">
+        <div class="w-fit mx-auto">
+          <p class="font-bold">Username: <span class="font-normal">admin</span></p>
+          <p class="font-bold">Password: <span class="font-normal">admin123</span></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+    <script src="./script/login.js"></script>
+  </body>
+</html>
