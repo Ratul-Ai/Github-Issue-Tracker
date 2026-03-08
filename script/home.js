@@ -13,6 +13,24 @@ const activeButton = (id) => {
   document.getElementById(id).classList.remove("btn-outline");
 };
 
+const dataLoading=(status)=>{
+  if(status){
+    document.getElementById('spinner').classList.remove('hidden');
+    document.getElementById('card-container').innerHTML = '';
+  }else{
+    document.getElementById('spinner').classList.add('hidden');
+  }
+}
+const modalLoading=(status)=>{
+  if(status){
+    document.getElementById('modal-spinner').classList.remove('hidden');
+    document.getElementById('modal-details').innerHTML = '';
+    document.getElementById('issue-modal').showModal(); 
+  }else{
+    document.getElementById('modal-spinner').classList.add('hidden');
+  }
+}
+
 /// data fetching common function
 const fetchJson = async (url) => {
   const response = await fetch(url);
@@ -24,13 +42,16 @@ const fetchJson = async (url) => {
 };
 
 const loadAllIssue = async () => {
+  dataLoading(true);
   activeButton("all-btn");
   try {
     const allIssues = await fetchJson(api.allIssues);
     renderIssues(allIssues);
   } catch (error) {
     console.error("Failed to load All Issues.", error);
+    dataLoading(false);
   }
+  
 };
 
 /// render Issues
@@ -42,6 +63,7 @@ const renderIssues = (issues) => {
   if(totalIssue===0){
     container.classList.remove('py-10', 'px-5');
     container.innerHTML='';
+    dataLoading(false);
     return;}
   container.classList.add('py-10', 'px-5');
   container.innerHTML = issues.map((issue) => `
@@ -106,13 +128,16 @@ const renderIssues = (issues) => {
     `,
     )
     .join("");
+     dataLoading(false);
 };
 
 const renderModal = async (id) => {
+  modalLoading(true);
+  try{
   const data = await fetchJson(api.singleIssue(id));
-  const container = document.getElementById("issue-modal");
+  const container = document.getElementById("modal-details");
   container.innerHTML = `
-  <div class="modal-box max-w-xl">
+  
     <h2 class="text-2xl font-bold text-black mb-3">${data.title}</h2>
 
     <!-- Status + Author + Date -->
@@ -161,28 +186,37 @@ const renderModal = async (id) => {
         </span>
       </div>
     </div>
-
-    <div class="modal-action">
-      <form method="dialog">
-        <button class="btn btn-primary">Close</button>
-      </form>
-    </div>
-  </div>
 `;
-  container.showModal();
+  modalLoading(false);
+      }catch(error) {
+        console.error(error);
+    modalLoading(false);
+  }
 };
 
 document.getElementById("open-btn").addEventListener("click", async () => {
   activeButton("open-btn");
-  const allIssues = await fetchJson(api.allIssues);
+   dataLoading(true);
+  try{
+    const allIssues = await fetchJson(api.allIssues);
   const filtered = allIssues.filter((issue) => issue.status === "open");
   renderIssues(filtered);
+  }catch(error) {
+    console.error(error);
+    dataLoading(false);
+  }
 });
 document.getElementById("close-btn").addEventListener("click", async () => {
   activeButton("close-btn");
+   dataLoading(true);
+  try{
   const allIssues = await fetchJson(api.allIssues);
   const filtered = allIssues.filter((issue) => issue.status === "closed");
   renderIssues(filtered);
+}catch(error) {
+  console.error(error);
+  dataLoading(false); 
+  }
 });
 document.getElementById("all-btn").addEventListener("click", async () => {
   loadAllIssue();
@@ -191,9 +225,15 @@ document.getElementById("all-btn").addEventListener("click", async () => {
 document.getElementById('search-btn').addEventListener('click',async()=>{
 
   activeButton('search-btn');
+  dataLoading(true);
+  try{
   const keyWord=document.getElementById('search-input').value;
   const data=await fetchJson(api.searchIssues(keyWord));
   renderIssues(data);
+  }catch(error) {
+    console.error(error);
+    dataLoading(false); 
+  }
 })
 
 loadAllIssue();

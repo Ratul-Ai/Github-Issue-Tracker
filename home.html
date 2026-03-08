@@ -60,7 +60,12 @@
           <div class="flex gap-2">
             <label class="input pr-0 input-bordered flex items-center gap-2">
               <i class="fa-solid fa-search text-gray-400"></i>
-              <input id="search-input" type="text" placeholder="Search issues..." class="px-3 grow" />
+              <input
+                id="search-input"
+                type="text"
+                placeholder="Search issues..."
+                class="px-3 grow"
+              />
             </label>
 
             <button id="search-btn" class="btn btn-primary">
@@ -141,18 +146,30 @@
           </p>
         </div>
       </div>
-
-        <div
-          id="card-container"
-          class="shadow-sm grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4"
-        ></div>
-      
+      <!--/ container  -->
+      <div
+        id="card-container"
+        class="shadow-sm grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4"
+      ></div>
+      <!--/ spinner  -->
+      <div id="spinner" class="hidden my-5 py-15 text-center">
+          <span class="loading loading-spinner text-primary"></span>
+        </div>
     </section>
 
-    <dialog
-      id="issue-modal"
-      class="modal modal-bottom sm:modal-middle"
-    ></dialog>
+    <dialog id="issue-modal" class="modal modal-bottom sm:modal-middle">
+      <div class="modal-box max-w-xl">
+        <div id="modal-details"></div>
+        <div id="modal-spinner" class="text-center p-20 hidden">
+          <span class="loading loading-spinner text-primary"></span>
+        </div>
+        <div class="modal-action">
+          <form method="dialog">
+            <button class="btn btn-primary">Close</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
 
     <!--/ javascript  -->
     <script src="./script/home.js"></script>
