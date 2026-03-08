@@ -1,4 +1,4 @@
-/// API lists 
+/// API lists
 const api = {
   allIssues: "https://phi-lab-server.vercel.app/api/v1/lab/issues",
   singleIssue: (id) =>
@@ -7,6 +7,27 @@ const api = {
     `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`,
 };
 
+/// different types labels color
+const labelColors = {
+  bug: "bg-pink-100 border-pink-400 text-pink-600",
+  enhancement: "bg-sky-100 border-sky-400 text-sky-600",
+  documentation: "bg-indigo-100 border-indigo-400 text-indigo-600",
+  "help wanted": "bg-orange-100 border-orange-400 text-orange-600",
+  "good first issue": "bg-green-100 border-green-400 text-green-600",
+};
+
+/// label icons
+
+const labelIcons = {
+  bug: `<i class="fa-solid fa-bug"></i>`,
+  enhancement: `<i class="fa-solid fa-wand-magic-sparkles"></i>`,
+  documentation: `<i class="fa-solid fa-file-lines"></i>`,
+  "help wanted": `<i class="fa-solid fa-life-ring"></i>`,
+  "good first issue": `<i class="fa-solid fa-heart-circle-exclamation"></i>`,
+};
+const getLabelIcon = (label) => {
+  return labelIcons[label] ?? `<i class="fa-solid fa-tag"></i>`;
+};
 
 /// active buttons
 const activeButton = (id) => {
@@ -15,7 +36,6 @@ const activeButton = (id) => {
   });
   document.getElementById(id).classList.remove("btn-outline");
 };
-
 
 /// error messages
 const errorMsg = (status) => {
@@ -62,7 +82,6 @@ const fetchJson = async (url) => {
   return json.data;
 };
 
-
 /// all data fetching
 const loadAllIssue = async () => {
   errorMsg(false);
@@ -106,10 +125,10 @@ const renderIssues = (issues) => {
         }
         <span class="badge badge-soft ${
           issue.priority === "high"
-            ? "bg-red-100 border-red-300 text-red-500"
+            ? "bg-red-100 border-red-400 text-red-600"
             : issue.priority === "medium"
-              ? "bg-yellow-50 border-yellow-300 text-yellow-600"
-              : "bg-gray-100 border-gray-300 text-gray-500"
+              ? "bg-yellow-50 border-yellow-400 text-yellow-600"
+              : "bg-gray-100 border-gray-400 text-gray-600"
         } border font-semibold text-xs px-3">
           ${issue.priority.toUpperCase()}
         </span>
@@ -123,15 +142,18 @@ const renderIssues = (issues) => {
 
       <!-- Labels -->
       <div class="mt-2 flex self-center flex-wrap gap-2">
-        ${issue.labels
-          .map(
-            (label) => `
-          <span class="badge badge-soft bg-orange-300 border border-orange-500 text-black text-xs gap-1">
-            ${label}
-          </span>
-        `,
-          )
-          .join("")}
+      ${issue.labels
+        .map(
+          (label) => `
+      <span class="badge badge-soft ${labelColors[label] ?? "bg-gray-100 border-gray-400 text-gray-600"} border rounded-xl font-semibold text-xs">
+  
+      ${labelIcons[label] ?? `<i class="fa-solid fa-tag"></i>`}
+      ${label.toUpperCase()}
+      </span>
+      `,
+        )
+        .join("")}
+        
       </div>
 
       <!--Footer -->
@@ -182,15 +204,17 @@ const renderModal = async (id) => {
 
     <!-- Labels -->
     <div class="flex flex-wrap gap-2 mb-5">
-      ${data.labels
-        .map(
-          (label) => `
-        <span class="badge badge-soft bg-orange-300 border border-orange-500 text-black text-xs gap-1">
-          ${label}
-        </span>
+        ${data.labels
+          .map(
+            (label) => `
+      <span class="badge badge-soft ${labelColors[label] ?? "bg-gray-100 border-gray-400 text-gray-600"} border rounded-xl font-semibold text-xs">
+  
+      ${labelIcons[label] ?? `<i class="fa-solid fa-tag"></i>`}
+      ${label.toUpperCase()}
+      </span>
       `,
-        )
-        .join("")}
+          )
+          .join("")}
     </div>
 
     <!-- Description -->
@@ -206,10 +230,10 @@ const renderModal = async (id) => {
         <p class="text-gray-400 text-sm mb-1">Priority:</p>
        <span class="badge badge-soft ${
          data.priority === "high"
-           ? "bg-red-100 border-red-300 text-red-500"
+           ? "bg-red-100 border-red-400 text-red-600"
            : data.priority === "medium"
-             ? "bg-yellow-50 border-yellow-300 text-yellow-600"
-             : "bg-gray-200 border-gray-400 text-gray-500"
+             ? "bg-yellow-50 border-yellow-400 text-yellow-600"
+             : "bg-gray-200 border-gray-400 text-gray-600"
        } border font-semibold text-xs px-3">
           ${data.priority.toUpperCase()}
         </span>
@@ -223,8 +247,6 @@ const renderModal = async (id) => {
     modalErrorMsg(true);
   }
 };
-
-
 
 /// Event Listener
 document.getElementById("open-btn").addEventListener("click", async () => {
@@ -273,7 +295,5 @@ document.getElementById("search-btn").addEventListener("click", async () => {
     errorMsg(true);
   }
 });
-
-
 
 loadAllIssue();
