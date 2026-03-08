@@ -25,9 +25,6 @@ const labelIcons = {
   "help wanted": `<i class="fa-solid fa-life-ring"></i>`,
   "good first issue": `<i class="fa-solid fa-heart-circle-exclamation"></i>`,
 };
-const getLabelIcon = (label) => {
-  return labelIcons[label] ?? `<i class="fa-solid fa-tag"></i>`;
-};
 
 /// active buttons
 const activeButton = (id) => {
@@ -281,6 +278,7 @@ document.getElementById("all-btn").addEventListener("click", async () => {
   loadAllIssue();
 });
 
+/// search button
 document.getElementById("search-btn").addEventListener("click", async () => {
   activeButton("search-btn");
   errorMsg(false);
@@ -295,5 +293,10 @@ document.getElementById("search-btn").addEventListener("click", async () => {
     errorMsg(true);
   }
 });
+/// Enter key for search button
+document.getElementById("search-input").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") document.getElementById("search-btn").click();
+});
 
+/// Loading UI
 loadAllIssue();

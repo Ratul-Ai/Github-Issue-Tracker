@@ -12,6 +12,10 @@ document.getElementById("login-btn").addEventListener("click", function () {
     document.getElementById("error-msg").classList.remove("hidden");
     return;
   }
-  window.location.assign("/home.html");
+  window.location.assign("./home.html");
   password.value = "";
+});
+
+document.getElementById("login-password").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") document.getElementById("login-btn").click();
 });
