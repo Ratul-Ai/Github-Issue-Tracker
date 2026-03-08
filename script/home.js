@@ -19,80 +19,77 @@ const fetchJson = async (url) => {
 const loadAllIssue = async () => {
   try {
     const allIssues = await fetchJson(api.allIssues);
-    renderAllIssues(allIssues);
+    renderIssues(allIssues);
   } catch (error) {
     console.error("Failed to load All Issues.", error);
   }
 };
 
-// "id": 1,
-// "title": "Fix navigation menu on mobile devices",
-// "description": "The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.",
-// "status": "open",
-// "labels": [
-// "bug",
-// "help wanted"
-// ],
-// "priority": "high",
-// "author": "john_doe",
-// "assignee": "jane_smith",
-// "createdAt": "2024-01-15T10:30:00Z",
-// "updatedAt": "2024-01-15T10:30:00Z"
 
-const renderAllIssues = (allIssues) => {
+/// render Issues 
+const renderIssues = (issues) => {
   const container = document.getElementById("card-container");
-  container.innerHTML = allIssues
-    .map(
-      (issue) => `
-        <div
-            class="card bg-white shadow-sm border border-gray-100 rounded-lg overflow-hidden border-t-4 ${issue.status === "open" ? "border-t-green-500" : "border-t-purple-500"}"
-          >
-            <div class="card-body p-4 gap-3">
-              <!--/ Status + Priority -->
-              <div class="flex items-center justify-between">
-              ${issue.status === "open" ? '<img src="./assets/Open-Status.png" alt="Open status logo"/>' : '<img src="./assets/Closed- Status .png" alt="closed status logo">'}
-                
-                
-                <span
-                  class="badge badge-soft ${issue.priority === "high" ? "bg-red-100  border-red-300 text-red-500" : issue.priority === "medium" ? " bg-yellow-50 border-yellow-300 text-yellow-600" : "bg-gray-100 border-gray-300 text-gray-500"}  border font-semibold text-xs px-3"
-                  >${issue.priority.toUpperCase()}</span
-                >
-              </div>
-              <!--/ Title -->
-            
-            <h2 class="font-bold text-black flex-1 text-base">${issue.title}</h2>
-            
-            <!--/ Description -->
-            <div class="flex-1">
-                <p class="text-gray-400 text-sm line-clamp-2 ">${issue.description}</p>
-            </div>
-              <!--/ Tags -->
-              <div class="flex flex-wrap gap-2">
-               ${issue.labels.map((label)=>`<span
-                  class="badge badge-soft bg-orange-300 border border-orange-500 text-black text-xs gap-1"
-                >${label}
-                </span>`).join("")}
-                
-              </div>
-              <hr class="border border-gray-300 my-2 ">
-              <!--/ Footer -->
-              <div class="text-xs text-gray-400 flex justify-between gap-2">
-                <div>
-                  <p>${issue.author?`#1 by ${issue.author}`:''}</p>
-                  <p>${issue.assignee?`Assignee: ${issue.assignee}`:''}</p>
-                </div>
-                <div>
-                  <p>${issue.createdAt?`Created: ${new Date(issue.createdAt).toLocaleDateString()}`:''}</p>
-                  <p>${issue.updatedAt?`Updated: ${new Date(issue.updatedAt).toLocaleDateString()}`:''}</p>
-                </div>
-                
-              </div>
-            </div>
+  const issueStatus=document.getElementById('issue-status');
+  const totalIssue=issues.length;
+  issueStatus.innerText=`${totalIssue} ${totalIssue===1?'Issue':'Issues'}`;
+  container.innerHTML = issues.map((issue) => `
+         <div class="card bg-white shadow-sm border border-gray-100 rounded-lg overflow-hidden border-t-4 ${issue.status === "open" ? "border-t-green-500" : "border-t-purple-500"} grid grid-rows-subgrid row-span-6">
+    <div class="card-body p-4 gap-2 grid grid-rows-subgrid row-span-6">
+
+      <!-- Status + Priority -->
+      <div class="flex items-center justify-between">
+        ${issue.status === "open" 
+          ? '<img src="./assets/Open-Status.png" alt="Open status logo"/>' 
+          : '<img src="./assets/Closed- Status .png" alt="Closed status logo"/>'}
+        <span class="badge badge-soft ${
+          issue.priority === "high" 
+            ? "bg-red-100 border-red-300 text-red-500" 
+            : issue.priority === "medium" 
+            ? "bg-yellow-50 border-yellow-300 text-yellow-600" 
+            : "bg-gray-100 border-gray-300 text-gray-500"
+        } border font-semibold text-xs px-3">
+          ${issue.priority.toUpperCase()}
+        </span>
+      </div>
+
+      <!-- Title -->
+      <h2 class="font-bold self-center text-black text-base">${issue.title}</h2>
+
+      <!-- Description -->
+      <p class="text-gray-400 text-sm line-clamp-2">${issue.description}</p>
+
+      <!-- Labels -->
+      <div class="mt-2 flex self-center flex-wrap gap-2">
+        ${issue.labels.map((label) => `
+          <span class="badge badge-soft bg-orange-300 border border-orange-500 text-black text-xs gap-1">
+            ${label}
+          </span>
+        `).join("")}
+      </div>
+
+      <!--Footer -->
+      <hr class="mt-3 border border-gray-300 mb-3">
+      
+        <div class="self-center text-xs text-gray-400 flex justify-between gap-2">
+          <div>
+            <p>${issue.author ? `#${issue.id} by ${issue.author}` : ""}</p>
+            <p>${issue.assignee ? `Assignee: ${issue.assignee}` : ""}</p>
           </div>
+          <div class="text-right">
+            <p>${issue.createdAt ? `${new Date(issue.createdAt).toLocaleDateString()}` : ""}</p>
+            <p>${issue.updatedAt ? `Updated: ${new Date(issue.updatedAt).toLocaleDateString()}` : ""}
+            </p>
+          </div>
+      </div>
+
+    </div>
+  </div>
     
     `,
     )
     .join("");
 };
+
+
 
 loadAllIssue();
