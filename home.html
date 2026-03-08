@@ -58,12 +58,12 @@
           </div>
           <!--/ search -->
           <div class="flex gap-2">
-            <label class="input input-bordered flex items-center gap-2">
+            <label class="input pr-0 input-bordered flex items-center gap-2">
               <i class="fa-solid fa-search text-gray-400"></i>
-              <input type="text" placeholder="Search issues..." class="grow" />
+              <input id="search-input" type="text" placeholder="Search issues..." class="px-3 grow" />
             </label>
 
-            <button class="btn btn-primary">
+            <button id="search-btn" class="btn btn-primary">
               <i class="fa-solid fa-search"></i>
               <span class="hidden sm:block">Search</span>
             </button>
@@ -77,9 +77,21 @@
       <div
         class="mt-15 p-6 bg-base-100 shadow-sm border border-gray-100 flex flex-col gap-3 sm:flex-row"
       >
-        <button id="all-btn" class="btn btn-primary active-btn  px-9">All</button>
-        <button id="open-btn" class="btn btn-primary btn-outline active-btn px-7">Open</button>
-        <button id="close-btn" class="btn btn-primary btn-outline active-btn px-5">Closed</button>
+        <button id="all-btn" class="btn btn-primary active-btn px-9">
+          All
+        </button>
+        <button
+          id="open-btn"
+          class="btn btn-primary btn-outline active-btn px-7"
+        >
+          Open
+        </button>
+        <button
+          id="close-btn"
+          class="btn btn-primary btn-outline active-btn px-5"
+        >
+          Closed
+        </button>
       </div>
       <!--/ status  -->
       <div
@@ -112,9 +124,7 @@
             </svg>
           </div>
           <div>
-            <p id="issue-status" class="text-gray-900 font-bold text-lg">
-  
-            </p>
+            <p id="issue-status" class="text-gray-900 font-bold text-lg"></p>
             <p class="text-gray-400 text-sm">
               Track and manage your project issues
             </p>
@@ -132,25 +142,17 @@
         </div>
       </div>
 
-      <div class="pt-10 p-5 shadow-sm">
         <div
           id="card-container"
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4"
-        >
-        </div>
-      </div>
+          class="shadow-sm grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4"
+        ></div>
+      
     </section>
 
-    <!-- Open the modal using ID.showModal() method -->
-
-<dialog id="issue-modal" class="modal modal-bottom sm:modal-middle">
-  
-   
-
-   
-</dialog>
-
-
+    <dialog
+      id="issue-modal"
+      class="modal modal-bottom sm:modal-middle"
+    ></dialog>
 
     <!--/ javascript  -->
     <script src="./script/home.js"></script>

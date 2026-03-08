@@ -1,4 +1,3 @@
-
 const api = {
   allIssues: "https://phi-lab-server.vercel.app/api/v1/lab/issues",
   singleIssue: (id) =>
@@ -7,12 +6,12 @@ const api = {
     `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`,
 };
 
-const activeButton=(id)=>{
-    document.querySelectorAll('.active-btn').forEach((e)=>{
-        e.classList.add('btn-outline');
-    })
-    document.getElementById(id).classList.remove('btn-outline');
-}
+const activeButton = (id) => {
+  document.querySelectorAll(".active-btn").forEach((e) => {
+    e.classList.add("btn-outline");
+  });
+  document.getElementById(id).classList.remove("btn-outline");
+};
 
 /// data fetching common function
 const fetchJson = async (url) => {
@@ -25,7 +24,7 @@ const fetchJson = async (url) => {
 };
 
 const loadAllIssue = async () => {
-    activeButton('all-btn');
+  activeButton("all-btn");
   try {
     const allIssues = await fetchJson(api.allIssues);
     renderIssues(allIssues);
@@ -34,28 +33,34 @@ const loadAllIssue = async () => {
   }
 };
 
-
-/// render Issues 
+/// render Issues
 const renderIssues = (issues) => {
   const container = document.getElementById("card-container");
-  const issueStatus=document.getElementById('issue-status');
-  const totalIssue=issues.length;
-  issueStatus.innerText=`${totalIssue} ${totalIssue===1?'Issue':'Issues'}`;
+  const issueStatus = document.getElementById("issue-status");
+  const totalIssue = issues.length;
+  issueStatus.innerText = `${totalIssue} ${totalIssue === 1 ? "Issue" : "Issues"}`;
+  if(totalIssue===0){
+    container.classList.remove('py-10', 'px-5');
+    container.innerHTML='';
+    return;}
+  container.classList.add('py-10', 'px-5');
   container.innerHTML = issues.map((issue) => `
          <div onclick="renderModal(${issue.id})" class="card bg-white shadow-sm border border-gray-100 rounded-lg overflow-hidden border-t-4 ${issue.status === "open" ? "border-t-green-500" : "border-t-purple-500"} grid grid-rows-subgrid row-span-6">
     <div class="card-body p-4 gap-2 grid grid-rows-subgrid row-span-6">
 
       <!-- Status + Priority -->
       <div class="flex items-center justify-between">
-        ${issue.status === "open" 
-          ? '<img src="./assets/Open-Status.png" alt="Open status logo"/>' 
-          : '<img src="./assets/Closed- Status .png" alt="Closed status logo"/>'}
+        ${
+          issue.status === "open"
+            ? '<img src="./assets/Open-Status.png" alt="Open status logo"/>'
+            : '<img src="./assets/Closed- Status .png" alt="Closed status logo"/>'
+        }
         <span class="badge badge-soft ${
-          issue.priority === "high" 
-            ? "bg-red-100 border-red-300 text-red-500" 
-            : issue.priority === "medium" 
-            ? "bg-yellow-50 border-yellow-300 text-yellow-600" 
-            : "bg-gray-100 border-gray-300 text-gray-500"
+          issue.priority === "high"
+            ? "bg-red-100 border-red-300 text-red-500"
+            : issue.priority === "medium"
+              ? "bg-yellow-50 border-yellow-300 text-yellow-600"
+              : "bg-gray-100 border-gray-300 text-gray-500"
         } border font-semibold text-xs px-3">
           ${issue.priority.toUpperCase()}
         </span>
@@ -69,11 +74,15 @@ const renderIssues = (issues) => {
 
       <!-- Labels -->
       <div class="mt-2 flex self-center flex-wrap gap-2">
-        ${issue.labels.map((label) => `
+        ${issue.labels
+          .map(
+            (label) => `
           <span class="badge badge-soft bg-orange-300 border border-orange-500 text-black text-xs gap-1">
             ${label}
           </span>
-        `).join("")}
+        `,
+          )
+          .join("")}
       </div>
 
       <!--Footer -->
@@ -99,22 +108,18 @@ const renderIssues = (issues) => {
     .join("");
 };
 
-
-
-
-const renderModal=async(id)=>{
-    
-    const data=await fetchJson(api.singleIssue(id));
-    const container=document.getElementById('issue-modal');
-   container.innerHTML = `
+const renderModal = async (id) => {
+  const data = await fetchJson(api.singleIssue(id));
+  const container = document.getElementById("issue-modal");
+  container.innerHTML = `
   <div class="modal-box max-w-xl">
     <h2 class="text-2xl font-bold text-black mb-3">${data.title}</h2>
 
     <!-- Status + Author + Date -->
     <div class="flex items-center gap-2 text-sm text-gray-500 mb-5">
       <span class="badge text-white font-semibold rounded-full px-3 py-1 ${
-        data.status === 'open' ? 'bg-green-500' : 'bg-purple-500'
-      }">${data.status === 'open' ? 'Opened' : 'Closed'}</span>
+        data.status === "open" ? "bg-green-500" : "bg-purple-500"
+      }">${data.status === "open" ? "Opened" : "Closed"}</span>
       <span class="text-3xl">•</span>
       <span>Opened by ${data.author}</span>
       <span class="text-3xl">•</span>
@@ -123,11 +128,15 @@ const renderModal=async(id)=>{
 
     <!-- Labels -->
     <div class="flex flex-wrap gap-2 mb-5">
-      ${data.labels.map((label) => `
+      ${data.labels
+        .map(
+          (label) => `
         <span class="badge badge-soft bg-orange-300 border border-orange-500 text-black text-xs gap-1">
           ${label}
         </span>
-      `).join("")}
+      `,
+        )
+        .join("")}
     </div>
 
     <!-- Description -->
@@ -142,12 +151,12 @@ const renderModal=async(id)=>{
       <div >
         <p class="text-gray-400 text-sm mb-1">Priority:</p>
        <span class="badge badge-soft ${
-          data.priority === "high" 
-            ? "bg-red-100 border-red-300 text-red-500" 
-            : data.priority === "medium" 
-            ? "bg-yellow-50 border-yellow-300 text-yellow-600" 
-            : "bg-gray-300 border-gray-400 text-gray-700"
-        } border font-semibold text-xs px-3">
+         data.priority === "high"
+           ? "bg-red-100 border-red-300 text-red-500"
+           : data.priority === "medium"
+             ? "bg-yellow-50 border-yellow-300 text-yellow-600"
+             : "bg-gray-300 border-gray-400 text-gray-700"
+       } border font-semibold text-xs px-3">
           ${data.priority.toUpperCase()}
         </span>
       </div>
@@ -160,25 +169,31 @@ const renderModal=async(id)=>{
     </div>
   </div>
 `;
-    container.showModal();
-}
+  container.showModal();
+};
 
-document.getElementById('open-btn').addEventListener('click',async ()=>{
-    activeButton('open-btn');
-    const allIssues=await fetchJson(api.allIssues);
-    const filtered=allIssues.filter((issue)=>issue.status==='open');
-    renderIssues(filtered);
-})
-document.getElementById('close-btn').addEventListener('click',async ()=>{
-    activeButton('close-btn');
-    const allIssues=await fetchJson(api.allIssues);
-    const filtered=allIssues.filter((issue)=>issue.status==='closed');
-    renderIssues(filtered);
-})
-document.getElementById('all-btn').addEventListener('click',async ()=>{
-    loadAllIssue();
-})
+document.getElementById("open-btn").addEventListener("click", async () => {
+  activeButton("open-btn");
+  const allIssues = await fetchJson(api.allIssues);
+  const filtered = allIssues.filter((issue) => issue.status === "open");
+  renderIssues(filtered);
+});
+document.getElementById("close-btn").addEventListener("click", async () => {
+  activeButton("close-btn");
+  const allIssues = await fetchJson(api.allIssues);
+  const filtered = allIssues.filter((issue) => issue.status === "closed");
+  renderIssues(filtered);
+});
+document.getElementById("all-btn").addEventListener("click", async () => {
+  loadAllIssue();
+});
 
+document.getElementById('search-btn').addEventListener('click',async()=>{
 
+  activeButton('search-btn');
+  const keyWord=document.getElementById('search-input').value;
+  const data=await fetchJson(api.searchIssues(keyWord));
+  renderIssues(data);
+})
 
 loadAllIssue();
