@@ -1,3 +1,4 @@
+/// API lists 
 const api = {
   allIssues: "https://phi-lab-server.vercel.app/api/v1/lab/issues",
   singleIssue: (id) =>
@@ -6,6 +7,8 @@ const api = {
     `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`,
 };
 
+
+/// active buttons
 const activeButton = (id) => {
   document.querySelectorAll(".active-btn").forEach((e) => {
     e.classList.add("btn-outline");
@@ -13,6 +16,8 @@ const activeButton = (id) => {
   document.getElementById(id).classList.remove("btn-outline");
 };
 
+
+/// error messages
 const errorMsg = (status) => {
   if (status) {
     document.getElementById("error-msg").classList.remove("hidden");
@@ -57,6 +62,8 @@ const fetchJson = async (url) => {
   return json.data;
 };
 
+
+/// all data fetching
 const loadAllIssue = async () => {
   errorMsg(false);
   dataLoading(true);
@@ -71,7 +78,7 @@ const loadAllIssue = async () => {
   }
 };
 
-/// render Issues
+/// displaying cards
 const renderIssues = (issues) => {
   const container = document.getElementById("card-container");
   const issueStatus = document.getElementById("issue-status");
@@ -151,6 +158,7 @@ const renderIssues = (issues) => {
   dataLoading(false);
 };
 
+/// displaying modal
 const renderModal = async (id) => {
   modalErrorMsg(false);
   modalLoading(true);
@@ -201,7 +209,7 @@ const renderModal = async (id) => {
            ? "bg-red-100 border-red-300 text-red-500"
            : data.priority === "medium"
              ? "bg-yellow-50 border-yellow-300 text-yellow-600"
-             : "bg-gray-300 border-gray-400 text-gray-700"
+             : "bg-gray-200 border-gray-400 text-gray-500"
        } border font-semibold text-xs px-3">
           ${data.priority.toUpperCase()}
         </span>
@@ -216,6 +224,9 @@ const renderModal = async (id) => {
   }
 };
 
+
+
+/// Event Listener
 document.getElementById("open-btn").addEventListener("click", async () => {
   activeButton("open-btn");
   errorMsg(false);
@@ -262,5 +273,7 @@ document.getElementById("search-btn").addEventListener("click", async () => {
     errorMsg(true);
   }
 });
+
+
 
 loadAllIssue();
