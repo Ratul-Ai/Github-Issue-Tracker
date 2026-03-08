@@ -22,7 +22,6 @@
       * {
         font-family: "Geist", sans-serif;
       }
-
     </style>
     <!--/ daisy+tailwind -->
     <link
@@ -46,36 +45,104 @@
     />
   </head>
 
-  <body>
+  <body class="bg-base-200">
     <header class="sticky top-0 z-10">
       <div class="navbar bg-base-100 shadow-sm gap-8">
-        <div class="w-11/12 mx-auto flex justify-between items-center">
-        <div class="flex-1">
-          <a class="flex flex-col justify-center sm:justify-start sm:flex-row sm:items-center gap-1"
-            ><i class="sm:text-2xl fa-brands fa-github"></i>
-            <span class="text-sm sm:text-xl">GitHub Issue Tracker</span>
-          </a>
-        </div>
-        <div class="flex gap-2">
-          <label class="input input-bordered flex items-center gap-2">
-            <i class="fa-solid fa-search text-gray-400"></i>
-            <input type="text" placeholder="Search issues..." class="grow" />
-          </label>
+        <div class="w-11/12 mx-auto flex justify-between gap-1 items-center">
+          <div class="flex-1">
+            <a
+              class="flex flex-col justify-center sm:justify-start sm:flex-row sm:items-center gap-1"
+              ><i class="sm:text-2xl fa-brands fa-github"></i>
+              <span class="text-sm sm:text-xl">GitHub Issue Tracker</span>
+            </a>
+          </div>
+          <!--/ search -->
+          <div class="flex gap-2">
+            <label class="input input-bordered flex items-center gap-2">
+              <i class="fa-solid fa-search text-gray-400"></i>
+              <input type="text" placeholder="Search issues..." class="grow" />
+            </label>
 
-          <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> <span class="hidden sm:block">New Issue</span></button>
+            <button class="btn btn-primary">
+              <i class="fa-solid fa-search"></i>
+              <span class="hidden sm:block">Search</span>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
     </header>
-    <section class="w-3/4 mx-auto">
-        
-<div class=" mt-15 p-6 bg-base-200 shadow-sm flex flex-col gap-3 sm:flex-row">
-    <button class="btn btn-primary btn-outline px-9">All</button>
-    <button class="btn btn-primary btn-outline px-7">Open</button>
-    <button class="btn btn-primary btn-outline px-5">Closed</button>
-    
- 
-</div>
+
+    <section class="w-3/4 mx-auto min-h-screen">
+      <!--/ Tabs buttons  -->
+      <div
+        class="mt-15 p-6 bg-base-100 shadow-sm border border-gray-100 flex flex-col gap-3 sm:flex-row"
+      >
+        <button class="btn btn-primary btn-outline px-9">All</button>
+        <button class="btn btn-primary btn-outline px-7">Open</button>
+        <button class="btn btn-primary btn-outline px-5">Closed</button>
+      </div>
+      <!--/ status  -->
+      <div
+        class="mt-5 p-5 bg-base-100 shadow-sm border border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-5"
+      >
+        <!--/ Icon + Issues -->
+        <div class="flex items-center gap-4">
+          <div
+            class="bg-purple-200 rounded-full p-2 shadow-md shadow-purple-200"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide text-primary lucide-aperture-icon lucide-aperture"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="m14.31 8 5.74 9.94" />
+              <path d="M9.69 8h11.48" />
+              <path d="m7.38 12 5.74-9.94" />
+              <path d="M9.69 16 3.95 6.06" />
+              <path d="M14.31 16H2.83" />
+              <path d="m16.62 12-5.74 9.94" />
+            </svg>
+          </div>
+          <div>
+            <p class="text-gray-900 font-bold text-lg leading-tight">
+              <span>50</span> Issues
+            </p>
+            <p class="text-gray-400 text-sm">
+              Track and manage your project issues
+            </p>
+          </div>
+        </div>
+
+        <!--/ Open and closed Tag -->
+        <div class="flex items-center gap-5">
+          <p class="flex items-center gap-2 text-sm text-gray-600 font-medium">
+            <i class="fa-solid fa-circle text-green-500 text-xs"></i> Open
+          </p>
+          <p class="flex items-center gap-2 text-sm text-gray-600 font-medium">
+            <i class="fa-solid fa-circle text-purple-500 text-xs"></i> Closed
+          </p>
+        </div>
+      </div>
+
+      <div class="pt-10 p-5 shadow-sm">
+        <div
+          id="card-container"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4"
+        >
+        </div>
+      </div>
     </section>
+
+
+    <!--/ javascript  -->
+    <script src="./script/home.js"></script>
   </body>
 </html>
