@@ -15,5 +15,6 @@ document.getElementById("login-btn").addEventListener("click", function () {
         return;
     }
     window.location.assign('/home.html');
+    password.value='';
    
 });
