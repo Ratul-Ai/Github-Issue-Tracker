@@ -72,14 +72,14 @@
       </div>
     </header>
 
-    <section class="w-3/4 mx-auto min-h-screen">
+    <section class="w-11/12 sm:w-3/4 mx-auto min-h-screen">
       <!--/ Tabs buttons  -->
       <div
         class="mt-15 p-6 bg-base-100 shadow-sm border border-gray-100 flex flex-col gap-3 sm:flex-row"
       >
-        <button class="btn btn-primary btn-outline px-9">All</button>
-        <button class="btn btn-primary btn-outline px-7">Open</button>
-        <button class="btn btn-primary btn-outline px-5">Closed</button>
+        <button id="all-btn" class="btn btn-primary active-btn  px-9">All</button>
+        <button id="open-btn" class="btn btn-primary btn-outline active-btn px-7">Open</button>
+        <button id="close-btn" class="btn btn-primary btn-outline active-btn px-5">Closed</button>
       </div>
       <!--/ status  -->
       <div
@@ -140,6 +140,16 @@
         </div>
       </div>
     </section>
+
+    <!-- Open the modal using ID.showModal() method -->
+
+<dialog id="issue-modal" class="modal modal-bottom sm:modal-middle">
+  
+   
+
+   
+</dialog>
+
 
 
     <!--/ javascript  -->

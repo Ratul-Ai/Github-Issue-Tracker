@@ -1,3 +1,4 @@
+
 const api = {
   allIssues: "https://phi-lab-server.vercel.app/api/v1/lab/issues",
   singleIssue: (id) =>
@@ -5,6 +6,13 @@ const api = {
   searchIssues: (searchText) =>
     `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`,
 };
+
+const activeButton=(id)=>{
+    document.querySelectorAll('.active-btn').forEach((e)=>{
+        e.classList.add('btn-outline');
+    })
+    document.getElementById(id).classList.remove('btn-outline');
+}
 
 /// data fetching common function
 const fetchJson = async (url) => {
@@ -17,6 +25,7 @@ const fetchJson = async (url) => {
 };
 
 const loadAllIssue = async () => {
+    activeButton('all-btn');
   try {
     const allIssues = await fetchJson(api.allIssues);
     renderIssues(allIssues);
@@ -33,7 +42,7 @@ const renderIssues = (issues) => {
   const totalIssue=issues.length;
   issueStatus.innerText=`${totalIssue} ${totalIssue===1?'Issue':'Issues'}`;
   container.innerHTML = issues.map((issue) => `
-         <div class="card bg-white shadow-sm border border-gray-100 rounded-lg overflow-hidden border-t-4 ${issue.status === "open" ? "border-t-green-500" : "border-t-purple-500"} grid grid-rows-subgrid row-span-6">
+         <div onclick="renderModal(${issue.id})" class="card bg-white shadow-sm border border-gray-100 rounded-lg overflow-hidden border-t-4 ${issue.status === "open" ? "border-t-green-500" : "border-t-purple-500"} grid grid-rows-subgrid row-span-6">
     <div class="card-body p-4 gap-2 grid grid-rows-subgrid row-span-6">
 
       <!-- Status + Priority -->
@@ -89,6 +98,86 @@ const renderIssues = (issues) => {
     )
     .join("");
 };
+
+
+
+
+const renderModal=async(id)=>{
+    
+    const data=await fetchJson(api.singleIssue(id));
+    const container=document.getElementById('issue-modal');
+   container.innerHTML = `
+  <div class="modal-box max-w-xl">
+    <h2 class="text-2xl font-bold text-black mb-3">${data.title}</h2>
+
+    <!-- Status + Author + Date -->
+    <div class="flex items-center gap-2 text-sm text-gray-500 mb-5">
+      <span class="badge text-white font-semibold rounded-full px-3 py-1 ${
+        data.status === 'open' ? 'bg-green-500' : 'bg-purple-500'
+      }">${data.status === 'open' ? 'Opened' : 'Closed'}</span>
+      <span class="text-3xl">•</span>
+      <span>Opened by ${data.author}</span>
+      <span class="text-3xl">•</span>
+      <span>${data.createdAt ? new Date(data.createdAt).toLocaleDateString() : ""}</span>
+    </div>
+
+    <!-- Labels -->
+    <div class="flex flex-wrap gap-2 mb-5">
+      ${data.labels.map((label) => `
+        <span class="badge badge-soft bg-orange-300 border border-orange-500 text-black text-xs gap-1">
+          ${label}
+        </span>
+      `).join("")}
+    </div>
+
+    <!-- Description -->
+    <p class="text-gray-500 text-sm leading-relaxed mb-6">${data.description}</p>
+
+    <!-- Assignee + Priority -->
+    <div class="bg-gray-50 rounded-lg p-4 grid grid-cols-2 mb-6">
+      <div>
+        <p class="text-gray-400 text-sm mb-1">Assignee:</p>
+        <p class="font-semibold text-gray-800">${data.assignee ? data.assignee : "Unassigned"}</p>
+      </div>
+      <div >
+        <p class="text-gray-400 text-sm mb-1">Priority:</p>
+       <span class="badge badge-soft ${
+          data.priority === "high" 
+            ? "bg-red-100 border-red-300 text-red-500" 
+            : data.priority === "medium" 
+            ? "bg-yellow-50 border-yellow-300 text-yellow-600" 
+            : "bg-gray-300 border-gray-400 text-gray-700"
+        } border font-semibold text-xs px-3">
+          ${data.priority.toUpperCase()}
+        </span>
+      </div>
+    </div>
+
+    <div class="modal-action">
+      <form method="dialog">
+        <button class="btn btn-primary">Close</button>
+      </form>
+    </div>
+  </div>
+`;
+    container.showModal();
+}
+
+document.getElementById('open-btn').addEventListener('click',async ()=>{
+    activeButton('open-btn');
+    const allIssues=await fetchJson(api.allIssues);
+    const filtered=allIssues.filter((issue)=>issue.status==='open');
+    renderIssues(filtered);
+})
+document.getElementById('close-btn').addEventListener('click',async ()=>{
+    activeButton('close-btn');
+    const allIssues=await fetchJson(api.allIssues);
+    const filtered=allIssues.filter((issue)=>issue.status==='closed');
+    renderIssues(filtered);
+})
+document.getElementById('all-btn').addEventListener('click',async ()=>{
+    loadAllIssue();
+})
 
 
 
