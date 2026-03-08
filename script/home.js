@@ -13,6 +13,25 @@ const activeButton = (id) => {
   document.getElementById(id).classList.remove("btn-outline");
 };
 
+const errorMsg=(status)=>{
+  if(status){
+    document.getElementById('error-msg').classList.remove('hidden');
+  }else{
+    document.getElementById('error-msg').classList.add('hidden');
+
+  }
+}
+const modalErrorMsg=(status)=>{
+  if(status){
+    document.getElementById('modal-error-msg').classList.remove('hidden');
+  }else{
+    document.getElementById('modal-error-msg').classList.add('hidden');
+
+  }
+}
+
+
+/// Spinner 
 const dataLoading=(status)=>{
   if(status){
     document.getElementById('spinner').classList.remove('hidden');
@@ -42,6 +61,7 @@ const fetchJson = async (url) => {
 };
 
 const loadAllIssue = async () => {
+  errorMsg(false);
   dataLoading(true);
   activeButton("all-btn");
   try {
@@ -50,6 +70,7 @@ const loadAllIssue = async () => {
   } catch (error) {
     console.error("Failed to load All Issues.", error);
     dataLoading(false);
+    errorMsg(true);
   }
   
 };
@@ -132,6 +153,7 @@ const renderIssues = (issues) => {
 };
 
 const renderModal = async (id) => {
+  modalErrorMsg(false);
   modalLoading(true);
   try{
   const data = await fetchJson(api.singleIssue(id));
@@ -191,11 +213,13 @@ const renderModal = async (id) => {
       }catch(error) {
         console.error(error);
     modalLoading(false);
+    modalErrorMsg(true);
   }
 };
 
 document.getElementById("open-btn").addEventListener("click", async () => {
   activeButton("open-btn");
+  errorMsg(false);
    dataLoading(true);
   try{
     const allIssues = await fetchJson(api.allIssues);
@@ -204,10 +228,12 @@ document.getElementById("open-btn").addEventListener("click", async () => {
   }catch(error) {
     console.error(error);
     dataLoading(false);
+    errorMsg(true);
   }
 });
 document.getElementById("close-btn").addEventListener("click", async () => {
   activeButton("close-btn");
+  errorMsg(false);
    dataLoading(true);
   try{
   const allIssues = await fetchJson(api.allIssues);
@@ -216,6 +242,7 @@ document.getElementById("close-btn").addEventListener("click", async () => {
 }catch(error) {
   console.error(error);
   dataLoading(false); 
+  errorMsg(true);
   }
 });
 document.getElementById("all-btn").addEventListener("click", async () => {
@@ -225,6 +252,7 @@ document.getElementById("all-btn").addEventListener("click", async () => {
 document.getElementById('search-btn').addEventListener('click',async()=>{
 
   activeButton('search-btn');
+  errorMsg(false);
   dataLoading(true);
   try{
   const keyWord=document.getElementById('search-input').value;
@@ -233,6 +261,7 @@ document.getElementById('search-btn').addEventListener('click',async()=>{
   }catch(error) {
     console.error(error);
     dataLoading(false); 
+    errorMsg(true);
   }
 })
 
