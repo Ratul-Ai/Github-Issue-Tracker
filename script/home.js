@@ -76,14 +76,14 @@ const renderAllIssues = (allIssues) => {
               </div>
               <hr class="border border-gray-300 my-2 ">
               <!--/ Footer -->
-              <div class="text-xs text-gray-400 flex justify-between gap-0.5">
+              <div class="text-xs text-gray-400 flex justify-between gap-2">
                 <div>
-                  <p>#1 by john_doe</p>
-                  <p>#1 by john_doe</p>
+                  <p>${issue.author?`#1 by ${issue.author}`:''}</p>
+                  <p>${issue.assignee?`Assignee: ${issue.assignee}`:''}</p>
                 </div>
                 <div>
-                  <p>date</p>
-                  <p>date</p>
+                  <p>${issue.createdAt?`Created: ${new Date(issue.createdAt).toLocaleDateString()}`:''}</p>
+                  <p>${issue.updatedAt?`Updated: ${new Date(issue.updatedAt).toLocaleDateString()}`:''}</p>
                 </div>
                 
               </div>
