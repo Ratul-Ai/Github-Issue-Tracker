@@ -53,7 +53,9 @@
             <a
               class="flex flex-col justify-center sm:justify-start sm:flex-row sm:items-center gap-1"
               ><i class="sm:text-2xl fa-brands fa-github"></i>
-              <span class="text-sm sm:text-xl">GitHub Issue Tracker</span>
+              <span class="text-sm font-bold sm:text-xl"
+                >GitHub Issue Tracker</span
+              >
             </a>
           </div>
           <!--/ search -->
@@ -153,13 +155,17 @@
       ></div>
       <!--/ spinner  -->
       <div id="spinner" class="hidden my-5 py-15 text-center">
-          <span class="loading loading-spinner text-primary"></span>
-        </div>
-        <!--/ Error msg  -->
-        <div id="error-msg" class="hidden my-5 w-full text-center shadow-sm p-6 bg-red-50 border border-red-200  text-red-700" role="alert">
-          <i class="fa-solid fa-circle-exclamation"></i>
-          <span id="error-text">Something went wrong. Please try again.</span>
-        </div>
+        <span class="loading loading-spinner text-primary"></span>
+      </div>
+      <!--/ Error msg  -->
+      <div
+        id="error-msg"
+        class="hidden my-5 w-full text-center shadow-sm p-6 bg-red-50 border border-red-200 text-red-700"
+        role="alert"
+      >
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span id="error-text">Something went wrong. Please try again.</span>
+      </div>
     </section>
 
     <dialog id="issue-modal" class="modal modal-bottom sm:modal-middle">
@@ -170,7 +176,11 @@
           <span class="loading loading-spinner text-primary"></span>
         </div>
         <!--/ modal error msg  -->
-        <div id="modal-error-msg" class="hidden my-17 w-full text-center shadow-sm p-6 bg-red-50 border border-red-200  text-red-700" role="alert">
+        <div
+          id="modal-error-msg"
+          class="hidden my-17 w-full text-center shadow-sm p-6 bg-red-50 border border-red-200 text-red-700"
+          role="alert"
+        >
           <i class="fa-solid fa-circle-exclamation"></i>
           <span id="error-text">Something went wrong. Please try again.</span>
         </div>

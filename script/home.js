@@ -13,42 +13,39 @@ const activeButton = (id) => {
   document.getElementById(id).classList.remove("btn-outline");
 };
 
-const errorMsg=(status)=>{
-  if(status){
-    document.getElementById('error-msg').classList.remove('hidden');
-  }else{
-    document.getElementById('error-msg').classList.add('hidden');
-
+const errorMsg = (status) => {
+  if (status) {
+    document.getElementById("error-msg").classList.remove("hidden");
+  } else {
+    document.getElementById("error-msg").classList.add("hidden");
   }
-}
-const modalErrorMsg=(status)=>{
-  if(status){
-    document.getElementById('modal-error-msg').classList.remove('hidden');
-  }else{
-    document.getElementById('modal-error-msg').classList.add('hidden');
-
+};
+const modalErrorMsg = (status) => {
+  if (status) {
+    document.getElementById("modal-error-msg").classList.remove("hidden");
+  } else {
+    document.getElementById("modal-error-msg").classList.add("hidden");
   }
-}
+};
 
-
-/// Spinner 
-const dataLoading=(status)=>{
-  if(status){
-    document.getElementById('spinner').classList.remove('hidden');
-    document.getElementById('card-container').innerHTML = '';
-  }else{
-    document.getElementById('spinner').classList.add('hidden');
+/// Spinner
+const dataLoading = (status) => {
+  if (status) {
+    document.getElementById("spinner").classList.remove("hidden");
+    document.getElementById("card-container").innerHTML = "";
+  } else {
+    document.getElementById("spinner").classList.add("hidden");
   }
-}
-const modalLoading=(status)=>{
-  if(status){
-    document.getElementById('modal-spinner').classList.remove('hidden');
-    document.getElementById('modal-details').innerHTML = '';
-    document.getElementById('issue-modal').showModal(); 
-  }else{
-    document.getElementById('modal-spinner').classList.add('hidden');
+};
+const modalLoading = (status) => {
+  if (status) {
+    document.getElementById("modal-spinner").classList.remove("hidden");
+    document.getElementById("modal-details").innerHTML = "";
+    document.getElementById("issue-modal").showModal();
+  } else {
+    document.getElementById("modal-spinner").classList.add("hidden");
   }
-}
+};
 
 /// data fetching common function
 const fetchJson = async (url) => {
@@ -72,7 +69,6 @@ const loadAllIssue = async () => {
     dataLoading(false);
     errorMsg(true);
   }
-  
 };
 
 /// render Issues
@@ -81,13 +77,16 @@ const renderIssues = (issues) => {
   const issueStatus = document.getElementById("issue-status");
   const totalIssue = issues.length;
   issueStatus.innerText = `${totalIssue} ${totalIssue === 1 ? "Issue" : "Issues"}`;
-  if(totalIssue===0){
-    container.classList.remove('py-10', 'px-5');
-    container.innerHTML='';
+  if (totalIssue === 0) {
+    container.classList.remove("py-10", "px-5");
+    container.innerHTML = "";
     dataLoading(false);
-    return;}
-  container.classList.add('py-10', 'px-5');
-  container.innerHTML = issues.map((issue) => `
+    return;
+  }
+  container.classList.add("py-10", "px-5");
+  container.innerHTML = issues
+    .map(
+      (issue) => `
          <div onclick="renderModal(${issue.id})" class="card bg-white shadow-sm border border-gray-100 rounded-lg overflow-hidden border-t-4 ${issue.status === "open" ? "border-t-green-500" : "border-t-purple-500"} grid grid-rows-subgrid row-span-6">
     <div class="card-body p-4 gap-2 grid grid-rows-subgrid row-span-6">
 
@@ -149,16 +148,16 @@ const renderIssues = (issues) => {
     `,
     )
     .join("");
-     dataLoading(false);
+  dataLoading(false);
 };
 
 const renderModal = async (id) => {
   modalErrorMsg(false);
   modalLoading(true);
-  try{
-  const data = await fetchJson(api.singleIssue(id));
-  const container = document.getElementById("modal-details");
-  container.innerHTML = `
+  try {
+    const data = await fetchJson(api.singleIssue(id));
+    const container = document.getElementById("modal-details");
+    container.innerHTML = `
   
     <h2 class="text-2xl font-bold text-black mb-3">${data.title}</h2>
 
@@ -209,9 +208,9 @@ const renderModal = async (id) => {
       </div>
     </div>
 `;
-  modalLoading(false);
-      }catch(error) {
-        console.error(error);
+    modalLoading(false);
+  } catch (error) {
+    console.error(error);
     modalLoading(false);
     modalErrorMsg(true);
   }
@@ -220,12 +219,12 @@ const renderModal = async (id) => {
 document.getElementById("open-btn").addEventListener("click", async () => {
   activeButton("open-btn");
   errorMsg(false);
-   dataLoading(true);
-  try{
+  dataLoading(true);
+  try {
     const allIssues = await fetchJson(api.allIssues);
-  const filtered = allIssues.filter((issue) => issue.status === "open");
-  renderIssues(filtered);
-  }catch(error) {
+    const filtered = allIssues.filter((issue) => issue.status === "open");
+    renderIssues(filtered);
+  } catch (error) {
     console.error(error);
     dataLoading(false);
     errorMsg(true);
@@ -234,35 +233,34 @@ document.getElementById("open-btn").addEventListener("click", async () => {
 document.getElementById("close-btn").addEventListener("click", async () => {
   activeButton("close-btn");
   errorMsg(false);
-   dataLoading(true);
-  try{
-  const allIssues = await fetchJson(api.allIssues);
-  const filtered = allIssues.filter((issue) => issue.status === "closed");
-  renderIssues(filtered);
-}catch(error) {
-  console.error(error);
-  dataLoading(false); 
-  errorMsg(true);
+  dataLoading(true);
+  try {
+    const allIssues = await fetchJson(api.allIssues);
+    const filtered = allIssues.filter((issue) => issue.status === "closed");
+    renderIssues(filtered);
+  } catch (error) {
+    console.error(error);
+    dataLoading(false);
+    errorMsg(true);
   }
 });
 document.getElementById("all-btn").addEventListener("click", async () => {
   loadAllIssue();
 });
 
-document.getElementById('search-btn').addEventListener('click',async()=>{
-
-  activeButton('search-btn');
+document.getElementById("search-btn").addEventListener("click", async () => {
+  activeButton("search-btn");
   errorMsg(false);
   dataLoading(true);
-  try{
-  const keyWord=document.getElementById('search-input').value;
-  const data=await fetchJson(api.searchIssues(keyWord));
-  renderIssues(data);
-  }catch(error) {
+  try {
+    const keyWord = document.getElementById("search-input").value;
+    const data = await fetchJson(api.searchIssues(keyWord));
+    renderIssues(data);
+  } catch (error) {
     console.error(error);
-    dataLoading(false); 
+    dataLoading(false);
     errorMsg(true);
   }
-})
+});
 
 loadAllIssue();
