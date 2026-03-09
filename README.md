@@ -1,5 +1,5 @@
 
-### Project-[*🔗 Live link*](https://github-issue-tracker-webapp.netlify.app/)
+### Project-[*🔗 Live link*](https://github-issue-tracker-page.netlify.app/)
 ---
 
 
