@@ -7,11 +7,15 @@ document.querySelectorAll(".no-space").forEach((e) => {
 document.getElementById("login-btn").addEventListener("click", function () {
   const user = document.getElementById("login-user");
   const password = document.getElementById("login-password");
+  const errorMsg = document.getElementById("error-msg"); 
+
+  errorMsg.classList.add("hidden"); 
 
   if (user.value !== "admin" || password.value !== "admin123") {
-    document.getElementById("error-msg").classList.remove("hidden");
+    errorMsg.classList.remove("hidden"); 
     return;
   }
+
   window.location.assign("./home.html");
   password.value = "";
 });
